@@ -9,6 +9,10 @@ A simple recipe web app that allows users to:
 
 ## Live Demo
 
+> Unfortunately, the live demo doesn't fully work because this project runs on local server with Express (localhost), and GitHub Pages only hosts static files.
+
+But hey — at least the index page shows up 😄
+
 [Click here to view the deployed project](https://sanaatawalbeh.github.io/Flavor-table/))
 
 ## Time Spent
