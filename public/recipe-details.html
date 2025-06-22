@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Flavor Table</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="/style.css" />
+    <style>
+      .recipe-details {
+        max-width: 800px;
+        margin: 50px auto;
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+      }
+
+      .recipe-details h1 {
+        text-align: center;
+        color: #ff7f50;
+      }
+
+      .recipe-details img {
+        width: 100%;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+
+      .recipe-details p {
+        line-height: 1.6;
+        font-size: 16px;
+      }
+      .back-btn-container {
+        text-align: center;
+        margin-top: 30px;
+      }
+
+      .back-btn {
+        background-color: #ff7f50;
+        color: #000;
+        padding: 10px 25px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .back-btn:hover {
+        background-color: #e7754c;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="logo">Flavor Table</div>
+        <ul class="nav-links">
+          <li>
+            <a href="/"><button>Home</button></a>
+          </li>
+          <li>
+            <a href="/recipes/search"
+              ><button id="searchBtn">Search Recipes</button></a
+            >
+          </li>
+          <li>
+            <a href="/recipes/random"><button>Random Recipe</button></a>
+          </li>
+          <li>
+            <a href="/recipes/favorites"><button>Favorites Recipe</button></a>
+          </li>
+        </ul>
+      </nav>
+      <div class="intro-text">
+        <h1>Recipe Details</h1>
+      </div>
+    </header>
+
+    <main>
+      <div id="recipe-container"></div>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+
+        if (!id) {
+          document.getElementById("recipe-container").innerHTML =
+            "<p>Missing recipe ID.</p>";
+          return;
+        }
+
+        try {
+          const res = await fetch(`/recipes/api/${id}/information`);
+          const recipe = await res.json();
+
+          document.getElementById("recipe-container").innerHTML = `
+      <div class="recipe-details">
+        <h1>${recipe.title}</h1>
+        <img src="${recipe.image}" alt="${recipe.title}" />
+        <p><strong>Cooking time:</strong> ${recipe.readyInMinutes} minutes</p>
+        <p><strong>Summary:</strong> ${recipe.summary}</p>
+        <div class="back-btn-container">
+        <a href="/recipes/search"><button class="back-btn">← Back to Search</button></a>
+        </div>
+        <div class="back-btn-container">
+        <a href="/recipes/favorites"><button class="back-btn">← Back to Favorites</button></a>
+        </div>
+        </div>
+    `;
+        } catch (err) {
+          console.error("Failed to fetch recipe details:", err);
+          document.getElementById("recipe-container").innerHTML =
+            "<p>Failed to load recipe details.</p>";
+        }
+      });
+    </script>
+  </body>
+</html>
