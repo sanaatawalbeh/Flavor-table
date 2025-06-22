@@ -1,0 +1,257 @@
+/* Use the elegant Google Font */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  background: url("./images/background.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center center;
+  background-size: cover;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar styling */
+.navbar {
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(34, 34, 34, 0.85);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+.logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: default;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li button {
+  background: transparent;
+  border: 2px solid #fff;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+  border-radius: 20px;
+}
+
+.nav-links li button:hover {
+  background: #fff;
+  color: #222;
+}
+
+.intro-text {
+  text-align: center;
+  margin: 3rem 1rem 2rem;
+}
+
+.intro-text h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.intro-text p {
+  font-size: 1.2rem;
+  font-style: italic;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+/*  */
+
+/* #ingredientsInput {
+  width: 60%;
+  max-width: 500px;
+  padding: 0.7rem 1rem;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 0 10px rgba(255 255 255 / 0.6);
+  outline: none;
+} */
+
+/* random recipe */
+.main-btn {
+  background-color: #ff7f50;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.main-btn:hover {
+  background-color: #ff6333;
+}
+
+.recipe-card {
+  max-width: 600px;
+  background: #000000;
+  padding: 1.5rem;
+  margin: 2rem auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  opacity: 0.8;
+  text-align: center;
+  justify-content: center;
+}
+
+.recipe-card img {
+  max-width: 50%;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.recipe-card ul {
+  list-style: disc inside;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+
+/* search */
+.search-container {
+  margin: 2rem auto;
+  text-align: center;
+}
+
+#searchInput {
+  width: 50%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 2px solid #ff7f50;
+  border-radius: 8px;
+  margin-right: 0.5rem;
+}
+
+.recipe-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+  margin: auto;
+  justify-content: flex-start;
+  color: #ffffff;
+}
+
+.recipe-card-small {
+  flex: 0 1 calc(33.33% - 1rem); /* تقريباً 3 كاردات في الصف مع الفراغ بين الكاردات */
+  box-sizing: border-box;
+  border: 1px solid #000000;
+  padding: 1rem;
+  border-radius: 16px;
+  background: #000000;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+  max-height: 340px;
+  opacity: 0.75;
+}
+.recipe-card-small:hover {
+  transform: scale(1.03);
+  opacity: 1;
+}
+
+.recipe-card-small img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+}
+
+.recipe-card-small h3 {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+  text-align: center;
+}
+
+.recipe-card-small p {
+  font-size: 0.85rem;
+  margin: 0.15rem 0;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-grow: 1;
+}
+#searchPageBtn {
+  background-color: #ff7f50;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  height: 45px;
+  transition: background-color 0.3s ease; /* ← أضف هذا السطر */
+
+}
+#searchPageBtn:hover {
+  background-color: #ff6633;
+}
+.btn-group {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 0.75rem;
+}
+.used {
+  color: green;
+  font-weight: bold;
+}
+.missed {
+  color: red;
+  font-weight: bold;
+}
+@media (max-width: 768px) {
+  .recipe-card-small {
+    flex: 0 1 calc(50% - 1rem); /* صفين لو الشاشة أصغر */
+  }
+}
+
+@media (max-width: 480px) {
+  .recipe-card-small {
+    flex: 0 1 100%; /* كارد واحد في الصف للشاشات الصغيرة */
+  }
+}
+
+.site-footer {
+  background-color: #000000;
+  color: #fff;
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: 3rem;
+  font-size: 0.9rem;
+}

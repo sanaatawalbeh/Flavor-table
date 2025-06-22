@@ -1,23 +1,27 @@
-# Flavor Table 🍽️
+# Flavor Table
 
 A simple recipe web app that allows users to:
 
 - Search for recipes by ingredients
 - View random recipes
-- Save favorite recipes
-- View recipe details
+- Save to favorite recipes from both earch and randompage
+- View recipe details from the search page or favorite recipes page
 
-## 🔗 Live Demo
+## Live Demo
 
-[Click here to view the deployed project](https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPO_NAME)
+> Unfortunately, the live demo doesn't fully work because this project runs on local server with Express (localhost), and GitHub Pages only hosts static files.
 
-## 🕒 Time Spent
+But hey — at least the index page shows up 😄
+
+[Click here to view the deployed project](https://sanaatawalbeh.github.io/Flavor-table/))
+
+## Time Spent
 
 **How many hours did it take you to complete this assignment?**
 
 > I’m not exactly sure how many hours it took, but I started working on it Friday evening and continued throughout Saturday and Sunday. I still feel like my work isn’t quite where I want it to be—especially in terms of styling.
 
-## 💡 Challenges
+## Challenges
 
 **Were there any parts of the lab you found challenging?**
 
