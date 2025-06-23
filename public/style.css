@@ -115,6 +115,8 @@ body {
 }
 
 .recipe-card {
+  display: none;
+
   max-width: 600px;
   background: #000000;
   padding: 1.5rem;
@@ -138,7 +140,6 @@ body {
   text-align: left;
   margin-bottom: 1rem;
 }
-
 
 /* search */
 .search-container {
@@ -216,7 +217,6 @@ body {
   cursor: pointer;
   height: 45px;
   transition: background-color 0.3s ease; /* ← أضف هذا السطر */
-
 }
 #searchPageBtn:hover {
   background-color: #ff6633;

@@ -6,12 +6,11 @@ require("dotenv").config();
 
 const apiKey = process.env.SPOONACULAR_API_KEY;
 
-// راوت صفحة الوصفة العشوائية
 router.get("/random", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/randomrecipe.html"));
 });
 
-// API لطلب وصفة عشوائية
+
 router.get("/api/random", async (req, res) => {
   try {
     const response = await axios.get(
@@ -35,7 +34,6 @@ router.get("/api/random", async (req, res) => {
   }
 });
 
-// راوت صفحة البحث (يرسل ملف search.html)
 router.get("/search", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/search.html"));
 });
@@ -73,7 +71,7 @@ router.get("/api/search", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch recipes" });
   }
 });
-// ✅ API جديد للبحث حسب المكونات
+
 router.get("/api/by-ingredients", async (req, res) => {
   const ingredients = req.query.ingredients;
   if (!ingredients)

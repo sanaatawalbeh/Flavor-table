@@ -109,7 +109,7 @@ if (btn && display && title && img && ingredients && instructions) {
   });
 }
 
-// =================== المفضلة ===================
+// =================== ===================
 const favBtn = document.getElementById("favoritesBtn");
 const favSection = document.getElementById("favoritesSection");
 
