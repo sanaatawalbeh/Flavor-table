@@ -7,14 +7,6 @@ A simple recipe web app that allows users to:
 - Save to favorite recipes from both earch and randompage
 - View recipe details from the search page or favorite recipes page
 
-## Live Demo
-
-> Unfortunately, the live demo doesn't fully work because this project runs on local server with Express (localhost), and GitHub Pages only hosts static files.
-
-But hey — at least the index page shows up 😄
-
-[Click here to view the deployed project](https://sanaatawalbeh.github.io/Flavor-table/))
-
 ## Time Spent
 
 **How many hours did it take you to complete this assignment?**
