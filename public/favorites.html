@@ -7,6 +7,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="/style.css" />
+    <style>
+      h1 {
+        color: black;
+      }
+    </style>
   </head>
   <body>
     <header>
@@ -25,20 +30,63 @@
             <a href="/recipes/random"><button>Random Recipe</button></a>
           </li>
           <li>
-            <a href="/recipes/favorites"><button>Favorites Recipe</button></a>
+            <a href="/recipes/favorites" class="active"
+              ><button>Favorites Recipe</button></a
+            >
           </li>
         </ul>
       </nav>
     </header>
     <main>
-      <h1 style="text-align: center">My Favorite Recipes</h1>
-      <div id="favoritesContainer" class="recipe-list"></div>
+      <section id="favoritesSection">
+        <h1 style="text-align: center">My Favorite Recipes</h1>
+        <div id="favoritesContainer" class="recipe-list"></div>
+      </section>
     </main>
+    <div id="updateModal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Update Recipe</h2>
+        <form id="updateForm">
+          <input type="hidden" id="updateId" />
+
+          <div class="form-row">
+            <label for="updateTitle">Title</label>
+            <input type="text" id="updateTitle" required />
+          </div>
+
+          <div class="form-row">
+            <label for="updateImage">Image URL</label>
+            <input type="text" id="updateImage" required />
+          </div>
+
+          <div class="form-row">
+            <label for="updateInstructions">Instructions</label>
+            <textarea id="updateInstructions" required></textarea>
+          </div>
+
+          <div class="form-row">
+            <label for="updateIngredients">Ingredients</label>
+            <input type="text" id="updateIngredients" required />
+          </div>
+
+          <div class="form-row">
+            <label for="updateReadyIn">Ready in (minutes)</label>
+            <input type="number" id="updateReadyIn" min="1" required />
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="main-btn-update">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
     <script src="/app.js"></script>
 
     <footer class="site-footer">
       <p>&copy; 2025 Flavor Table. All rights reserved.</p>
+      <p>Made with LOVE by <span class="creator-name">Sana'a Tawalbeh</span></p>
     </footer>
   </body>
 </html>
