@@ -14,7 +14,7 @@
         <div class="logo">Flavor Table</div>
         <ul class="nav-links">
           <li>
-            <a href="/"><button>Homw</button></a>
+            <a href="/" class="active"><button>Home</button></a>
           </li>
           <li>
             <a href="/recipes/search"
@@ -29,14 +29,57 @@
           </li>
         </ul>
       </nav>
-      <div class="intro-text">
-        <h1>Welcome to Flavor Table Website</h1>
+
+      <dv class="intro-text"i>
+        <h1>Delicious Food Is Waiting For YOU!</h1>
         <p>Discover delicious recipes based on the ingredients you have!</p>
+        
+        <!-- كلام إضافي -->
+        <p>Explore our top dishes carefully selected just for you. Find inspiration for your next meal and enjoy cooking!</p>
+        
+        <!-- زر ينقلك لصفحة السيرش -->
+        <button id="searchBtn" onclick="location.href='/recipes/search'" class="main-btn-index">
+          Search Recipes
+        </button>
       </div>
+      
+      <!-- الكروت الثلاثة -->
+      <section class="top-recipes-section">
+
+      <h2 class="section-title"> TOP RECIPES !</h2>
+
+      <div class="top-dishes-container">
+        <div class="dish-card">
+          <img src="images/1.jpg" alt="Spaghetti Carbonara">
+          <h3>Spaghetti Carbonara</h3>
+          <p>Ingredients: Spaghetti, eggs, pancetta, parmesan, black pepper</p>
+        </div>
+      
+        <div class="dish-card">
+          <img src="images/2.jpg" alt="Grilled Chicken Salad">
+          <h3>Grilled Chicken Salad</h3>
+          <p>Ingredients: Chicken, greens, cherry tomatoes, olive oil, lemon</p>
+        </div>
+      
+        <div class="dish-card">
+          <img src="images/4.jpg" alt="Chocolate Lava Cake">
+          <h3>Chocolate Lava Cake</h3>
+          <p>Ingredients: Dark chocolate, butter, sugar, eggs, flour</p>
+        </div>
+
+      </div>
+    </section>
+      </div>
+      
     </header>
 
     <main></main>
 
     <script src="app.js"></script>
+    <footer class="site-footer">
+      <p>&copy; 2025 Flavor Table. All rights reserved.</p>
+      <p>Made with LOVE by <span class="creator-name">Sana'a Tawalbeh</span></p>
+    </footer>
+    
   </body>
 </html>

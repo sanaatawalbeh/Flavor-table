@@ -1,4 +1,4 @@
-// =================== search ===================
+// =================SEARCH====================
 const searchBtn = document.getElementById("searchPageBtn");
 const searchInput = document.getElementById("searchInput");
 const searchResults = document.getElementById("searchResults");
@@ -18,7 +18,6 @@ if (searchBtn && searchInput && searchResults) {
         )}`
       );
       const data = await res.json();
-
       searchResults.innerHTML = "";
 
       if (data.length === 0) {
@@ -28,12 +27,10 @@ if (searchBtn && searchInput && searchResults) {
           const card = document.createElement("div");
           card.className = "recipe-card-small";
 
-          const used = recipe.usedIngredients
-            ? recipe.usedIngredients.map((i) => i.name).join(", ")
-            : "N/A";
-          const missed = recipe.missedIngredients
-            ? recipe.missedIngredients.map((i) => i.name).join(", ")
-            : "N/A";
+          const used =
+            recipe.usedIngredients?.map((i) => i.name).join(", ") || "N/A";
+          const missed =
+            recipe.missedIngredients?.map((i) => i.name).join(", ") || "N/A";
 
           card.innerHTML = `
             <img src="${recipe.image}" alt="${recipe.title}" />
@@ -41,9 +38,9 @@ if (searchBtn && searchInput && searchResults) {
             <p><strong class="used">Used Ingredients:</strong> ${used}</p>
             <p><strong class="missed">Missing Ingredients:</strong> ${missed}</p>
             <div class="btn-group">
-<a href="/recipes/recp-details?id=${recipe.id}">
-  <button class="main-btn">View Recipe</button>
-</a>
+              <a href="/recipes/recp-details?id=${recipe.id}">
+                <button class="main-btn">View Recipe</button>
+              </a>
               <button class="main-btn save-fav-btn">Save to Favorites</button>
             </div>
           `;
@@ -56,16 +53,13 @@ if (searchBtn && searchInput && searchResults) {
           searchResults.appendChild(card);
         });
       }
-
-      // searchResults.style.display = "grid";
     } catch (err) {
-      console.error("Error fetching recipes:", err);
       alert("Failed to fetch recipes.");
     }
   });
 }
 
-// =================== random ===================
+// ===================RANDOM===================
 const btn = document.getElementById("getRecipeBtn");
 const display = document.getElementById("recipeDisplay");
 const title = document.getElementById("recipeTitle");
@@ -93,140 +87,227 @@ if (btn && display && title && img && ingredients && instructions) {
       display.style.display = "block";
 
       saveBtn.onclick = () => {
-        saveToFavorites({
-          id: data.id || Date.now(),
+        const recipeData = {
           title: data.title,
           image: data.image,
-          instructions: data.instructions,
-          ingredients: data.ingredients,
-          summary: data.summary || "No summary available.",
-          readyInMinutes: data.readyInMinutes || "N/A",
-        });
+          instructions: data.instructions || "No instructions available.",
+          ingredients: JSON.stringify(data.ingredients || []),
+          readyin: data.readyInMinutes || 30,
+        };
+
+        axios
+          .post("/recipes/insert", recipeData)
+          .then(() => {
+            alert(" Recipe saved to favorites and DataBase !");
+          })
+
+          .catch((error) => {
+            alert(" Failed to save recipe.");
+          });
       };
     } catch (err) {
-      alert("Failed to fetch the recipe 😢");
+      alert("Failed to fetch the recipe ");
     }
   });
 }
 
-// =================== ===================
-const favBtn = document.getElementById("favoritesBtn");
-const favSection = document.getElementById("favoritesSection");
+// =================== sava to database ===================
+async function saveToFavorites(recipe) {
+  try {
+    if (!recipe.id) {
+      alert("Missing recipe ID.");
+      return;
+    }
 
-if (favBtn && favSection) {
-  favBtn.addEventListener("click", () => {
-    displayFavorites();
-    showSection("favoritesSection");
-  });
+    // 1) جلب التفاصيل من راوتك الخاص
+    const res = await fetch(`/recipes/api/${recipe.id}/information`);
+    if (!res.ok) {
+      const txt = await res.text();
+      throw new Error(`Server error ${res.status}: ${txt}`);
+    }
+    const fullData = await res.json();
+
+    const recipeData = {
+      title: fullData.title,
+      image: fullData.image,
+      instructions:
+        fullData.analyzedInstructions?.[0]?.steps
+          .map((s) => s.step)
+          .join("\n") ||
+        fullData.instructions ||
+        "No instructions available.",
+      ingredients: JSON.stringify(
+        fullData.extendedIngredients?.map((i) => i.original) || []
+      ),
+      readyin: fullData.readyInMinutes || 30,
+    };
+
+    await axios.post("/recipes/insert", recipeData);
+    alert("✅ Recipe saved with full details!");
+  } catch (err) {
+    console.error("❌ Error saving full recipe:", err);
+    alert(`Failed to save recipe: ${err.message}`);
+  }
+  
 }
 
-function saveToFavorites(recipe) {
-  let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+// ===================display database in fav page ===================
+async function loadFavorites() {
+  const favContainer = document.getElementById("favoritesContainer");
+  if (!favContainer) return;
 
-  if (favorites.some((fav) => fav.id === recipe.id)) {
-    alert("Recipe already in favorites!");
-    return;
-  }
+  favContainer.innerHTML = "";
 
-  favorites.push(recipe);
-  localStorage.setItem("favorites", JSON.stringify(favorites));
-  alert("Recipe saved to favorites!");
-}
+  try {
+    const res = await fetch("/recipes/showAll");
+    const favorites = await res.json();
 
-function displayFavorites() {
-  const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-  const container = document.getElementById("favoritesSection");
-  container.innerHTML = "";
+    if (favorites.length === 0) {
+      favContainer.innerHTML =
+        "<p style='text-align:center;'>No favorites yet.</p>";
+      return;
+    }
 
-  if (favorites.length === 0) {
-    container.innerHTML = "<p>No favorites yet.</p>";
-    return;
-  }
-
-  favorites.forEach((recipe) => {
-    const card = document.createElement("div");
-    card.className = "recipe-card";
-    card.innerHTML = `
-      <h3>${recipe.title}</h3>
+    favorites.forEach((recipe) => {
+      const card = document.createElement("div");
+      card.className = "recipe-card-favorite";
+      card.innerHTML = `
       <img src="${recipe.image}" alt="${recipe.title}" />
-      <p>${recipe.instructions || "No instructions"}</p>
-      <button class="remove-fav-btn">Remove</button>
+      <h3>${recipe.title}</h3>
+     <div class="card-content-scroll">
+  <p><strong>Ingredients:</strong> ${
+    Array.isArray(recipe.ingredients)
+      ? recipe.ingredients.join(", ")
+      : recipe.ingredients
+  }</p>
+  <p><strong>Instructions:</strong> ${
+    recipe.instructions || "No instructions"
+  }</p>
+  <p><strong>Ready in:</strong> ${recipe.readyin} minutes</p>
+</div>
+
+      
+      <div class="btn-group">
+        <a href="/recipes/recp-details?id=${recipe.id}">
+          <button class="main-btn">View</button>
+        </a>
+        <button class="main-btn update-btn" data-id="${
+          recipe.id
+        }">Update</button>
+        <button class="main-btn delete-btn" data-id="${
+          recipe.id
+        }">Delete</button>
+      </div>
     `;
+      const deleteBtn = card.querySelector(".delete-btn");
+      deleteBtn.addEventListener("click", async () => {
+        const id = deleteBtn.dataset.id;
+        if (!confirm("Are you sure you want to delete this recipe?")) return;
 
-    const removeBtn = card.querySelector(".remove-fav-btn");
-    removeBtn.addEventListener("click", () => {
-      removeFavorite(recipe.id);
-      displayFavorites();
+        try {
+          await fetch(`/recipes/delete/${id}`, { method: "DELETE" });
+          alert("✅ Recipe deleted.");
+          loadFavorites(); // تحديث القائمة بعد الحذف
+        } catch (err) {
+          console.error("❌ Error deleting recipe:", err);
+          alert("Failed to delete recipe.");
+        }
+      });
+      const updateBtn = card.querySelector(".update-btn");
+      updateBtn.addEventListener("click", () => {
+        openUpdateForm(recipe);
+      });
+
+      favContainer.appendChild(card);
     });
-
-    container.appendChild(card);
-  });
+  } catch (err) {
+    console.error("Error loading favorites:", err);
+    favContainer.innerHTML = "<p>Failed to load favorites.</p>";
+  }
 }
 
-function removeFavorite(id) {
-  let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-  favorites = favorites.filter((recipe) => recipe.id !== id);
-  localStorage.setItem("favorites", JSON.stringify(favorites));
-}
+//===================================================================
+document.addEventListener("click", async (e) => {
+  if (e.target.classList.contains("update-btn")) {
+    const recipeId = e.target.dataset.id;
 
-// =================== التنقل بين الأقسام ===================
-function showSection(sectionId) {
-  const sections = [
-    "homeSection",
-    "searchSection",
-    "randomSection",
-    "favoritesSection",
-  ];
-  sections.forEach((id) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.style.display = id === sectionId ? "block" : "none";
+    try {
+      console.log("🔍 Recipe ID:", recipeId); // تأكد إنه رقم صحيح
+
+      const res = await fetch(`/recipes/api/${recipeId}`);
+      console.log("📦 Response Status:", res.status);
+      const recipe = await res.json();
+
+      // عبي البيانات الحقيقية
+      document.getElementById("updateId").value = recipe.id;
+      document.getElementById("updateTitle").value = recipe.title;
+      document.getElementById("updateImage").value = recipe.image;
+      document.getElementById("updateInstructions").value = recipe.instructions;
+
+      let ingredientsStr;
+
+      try {
+        const parsed = JSON.parse(recipe.ingredients);
+        ingredientsStr = parsed.join(", ");
+      } catch (err) {
+        ingredientsStr = recipe.ingredients; // استخدم النص كما هو إذا ما كان JSON
+      }
+
+      document.getElementById("updateIngredients").value = ingredientsStr;
+      document.getElementById("updateReadyIn").value = recipe.readyin || 30;
+
+      // فتح المودال
+      document.getElementById("updateModal").classList.remove("hidden");
+    } catch (err) {
+      console.error("❌ Error loading recipe:", err);
+      alert("Failed to load recipe data.");
     }
-  });
-}
-
-// =================== المفضلة ===================
-
-function loadFavorites() {
-  const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-
-  const container = document.getElementById("favoritesContainer");
-  container.innerHTML = "";
-
-  if (favorites.length === 0) {
-    container.innerHTML = "<p style='text-align:center;'>No favorites yet.</p>";
-    return;
   }
 
-  favorites.forEach((recipe) => {
-    const card = document.createElement("div");
-    card.className = "recipe-card-small";
-    card.innerHTML = `
-    <img src="${recipe.image}" alt="${recipe.title}" />
-    <h3>${recipe.title}</h3>
-    <div class="btn-group">
-      <a href="/recipes/recp-details?id=${recipe.id}">
-        <button class="main-btn">View</button>
-      </a>
-      <button class="main-btn remove-btn">Remove</button>
-    </div>
-  `;
+  if (e.target.classList.contains("close")) {
+    document.getElementById("updateModal").classList.add("hidden");
+  }
+});
 
-    const removeBtn = card.querySelector(".remove-btn");
-    removeBtn.addEventListener("click", () => {
-      removeFavorite(recipe.id);
-      loadFavorites(); // reload بعد الحذف
+document.getElementById("updateForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const id = document.getElementById("updateId").value;
+  const title = document.getElementById("updateTitle").value;
+  const image = document.getElementById("updateImage").value;
+  const instructions = document.getElementById("updateInstructions").value;
+  const ingredients = document.getElementById("updateIngredients").value;
+  const readyin = document.getElementById("updateReadyIn").value;
+
+  fetch(`/recipes/update/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      title,
+      image,
+      instructions,
+      ingredients: JSON.stringify(ingredients.split(",")),
+      readyin: Number(readyin),
+    }),
+  })
+    .then((res) => res.json())
+    .then(() => {
+      alert("Recipe updated successfully!");
+      document.getElementById("updateModal").classList.add("hidden");
+      loadFavorites(); // حدث القائمة
+    })
+    .catch((err) => {
+      console.error("Error updating:", err);
+      alert("Failed to update recipe.");
     });
+});
 
-    container.appendChild(card);
-  });
-}
+// =================== تحميل المفضلة عند التحميل ===================
 
-function removeFavorite(recipeId) {
-  let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-  favorites = favorites.filter((r) => r.id !== recipeId);
-  localStorage.setItem("favorites", JSON.stringify(favorites));
-}
-
-// تحميل القائمة عند فتح الصفحة
-window.addEventListener("DOMContentLoaded", loadFavorites);
+window.addEventListener("DOMContentLoaded", () => {
+  const isFavoritesPage = document.getElementById("favoritesContainer");
+  if (isFavoritesPage) {
+    loadFavorites();
+    showSection?.("favoritesSection"); // اختياري حسب نظام الصفحات عندك
+  }
+});

@@ -20,7 +20,9 @@
             >
           </li>
           <li>
-            <a href="/recipes/random"><button>Random Recipe</button></a>
+            <a href="/recipes/random" class="active"
+              ><button>Random Recipe</button></a
+            >
           </li>
           <li>
             <a href="/recipes/favorites"><button>Favorites Recipe</button></a>
@@ -35,25 +37,26 @@
         <p>Click the button below to get a new delicious recipe every time!</p>
         <button id="getRecipeBtn" class="main-btn">Get Random Recipe</button>
       </div>
-      <section id="recipeDisplay" class="recipe-card" >
+      <section id="recipeDisplay" class="recipe-card">
         <img id="recipeImage" src="" alt="Recipe Image" />
         <h2 id="recipeTitle"></h2>
 
         <h3>Ingredients</h3>
-        <!-- Heading for ingredients -->
         <ul id="recipeIngredients"></ul>
 
         <h3>Instructions</h3>
-        <!-- Heading for instructions -->
         <p id="recipeInstructions"></p>
 
         <button id="saveRandomBtn" class="main-btn">Save to Favorites</button>
       </section>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <script src="/app.js"></script>
 
     <footer class="site-footer">
       <p>&copy; 2025 Flavor Table. All rights reserved.</p>
+      <p>Made with LOVE by <span class="creator-name">Sana'a Tawalbeh</span></p>
     </footer>
   </body>
 </html>

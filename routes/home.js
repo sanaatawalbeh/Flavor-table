@@ -1,7 +1,8 @@
 const express = require("express");
-// const path = require("path");
 const router = express.Router();
 
+
+//hime page router
 router.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
 });

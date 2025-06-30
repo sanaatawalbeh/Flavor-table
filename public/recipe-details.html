@@ -11,15 +11,20 @@
       .recipe-details {
         max-width: 800px;
         margin: 50px auto;
-        background-color: rgba(0, 0, 0, 0.7);
+        max-width: 800px;
+        background-color: rgba(255, 255, 255, 0.2); /* شفاف */
+        backdrop-filter: blur(100px); /* البلر الفعلي */
+        -webkit-backdrop-filter: blur(10px); /* دعم سفاري */
+        padding: 1.5rem;
         padding: 30px;
         border-radius: 15px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        box-shadow: 0 0 10px rgba(138, 172, 245, 0.8);
+        color: black;
       }
 
       .recipe-details h1 {
         text-align: center;
-        color: #ff7f50;
+        color: #3498db;
       }
 
       .recipe-details img {
@@ -38,8 +43,8 @@
       }
 
       .back-btn {
-        background-color: #ff7f50;
-        color: #000;
+        background-color: #3498db;
+        color: #ffffff;
         padding: 10px 25px;
         font-size: 16px;
         border: none;
@@ -49,7 +54,13 @@
       }
 
       .back-btn:hover {
-        background-color: #e7754c;
+        background-color: #8cc8f0;
+      }
+      .missing-id{
+        color:black;
+        text-align: center;
+        font-weight:bolder;
+        font-size: larger;
       }
     </style>
   </head>
@@ -90,7 +101,7 @@
 
         if (!id) {
           document.getElementById("recipe-container").innerHTML =
-            "<p>Missing recipe ID.</p>";
+            `<div class="missing-id"><p>Missing recipe ID!!</p></div>`;
           return;
         }
 
@@ -119,5 +130,9 @@
         }
       });
     </script>
+    <footer class="site-footer">
+      <p>&copy; 2025 Flavor Table. All rights reserved.</p>
+      <p>Made with LOVE by <span class="creator-name">Sana'a Tawalbeh</span></p>
+    </footer>
   </body>
 </html>
