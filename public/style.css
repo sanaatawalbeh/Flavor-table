@@ -110,6 +110,11 @@ body {
   font-size: 1.1rem;
   color: #1a1919;
 }
+.index-container {
+  display: flex;
+  justify-content: center;
+  height: 100vh;           
+}
 
 
 .main-btn-index{
