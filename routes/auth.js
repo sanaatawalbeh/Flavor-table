@@ -95,7 +95,7 @@ router.get("/me", routeGuard, async (req, res) => {
   }
 });
 
-router.get("/showAll", routeGuard, async (req, res) => {
+router.get("/showAll", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM users");
     res.json(result.rows);
@@ -105,7 +105,7 @@ router.get("/showAll", routeGuard, async (req, res) => {
   }
 });
 
-router.put("/update", routeGuard, async (req, res) => {
+router.put("/update", async (req, res) => {
   const { username, email, password } = req.body;
   const userId = req.user.id;
 
