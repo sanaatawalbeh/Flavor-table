@@ -49,9 +49,8 @@ pool
     console.error("Could not connect to database:", err);
   });
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+  
+  
 
 // -----------------------------------------------------------------------------------------------
 app.use((req, res) => {
