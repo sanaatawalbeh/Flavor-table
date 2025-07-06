@@ -3,11 +3,12 @@ const express = require("express");
 const axios = require("axios");
 const path = require("path");
 const router = express.Router();
-
 const apiKey = process.env.SPOONACULAR_API_KEY;
-
 const pg = require("pg");
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+
+//to protuct some routes
+const routeGuard = require("../middleware/verifytoken");
 
 //search page routes
 router.get("/search", (req, res) => {

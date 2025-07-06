@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>User Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", sans-serif;
+        background: #e9f5ec;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .profile-container {
+        background: #fff;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 90%;
+        max-width: 500px;
+      }
+
+      .profile-pic {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 15px;
+        border: 4px solid #a8dadc;
+      }
+
+      h2 {
+        color: #2a9d8f;
+        margin: 10px 0 5px;
+      }
+
+      .bio {
+        color: #666;
+        font-style: italic;
+        margin-bottom: 20px;
+      }
+
+      .info {
+        color: #444;
+        font-size: 15px;
+        margin: 5px 0;
+      }
+
+      .stats {
+        display: flex;
+        justify-content: space-around;
+        margin: 20px 0;
+        background: #f1fdf7;
+        padding: 15px;
+        border-radius: 12px;
+      }
+
+      .stat {
+        font-size: 14px;
+        color: #555;
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 18px;
+        color: #1d3557;
+      }
+
+      .buttons {
+        margin-top: 20px;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        margin: 5px;
+      }
+
+      .btn-edit {
+        background-color: #2a9d8f;
+        color: white;
+      }
+
+      .logout-btn {
+        background-color: #e63946;
+        color: white;
+      }
+      .btn-edit,
+      .logout-btn {
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 5px;
+      }
+
+      .btn-edit:hover,
+      .logout-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      @media (max-width: 600px) {
+        .stats {
+          flex-direction: column;
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="profile-container">
+      <img
+        src="https://tse1.mm.bing.net/th/id/OIP.JDLnPZg7t3RFAsViPevNFgAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3"
+        alt="profile picture"
+        class="profile-pic"
+      />
+      <h2 id="username">Loading...</h2>
+      <p class="bio">Sharing sweet recipes & good vibes</p>
+      <p class="info">Email: <span id="email">Loading...</span></p>
+      <p class="info">Joined: <span id="createdAt">--</span></p>
+
+      <div class="stats">
+        <div class="stat"><strong>0</strong> Recipes</div>
+        <div class="stat"><strong>0</strong> Favorites</div>
+        <div class="stat"><strong>0</strong> Followers</div>
+      </div>
+
+      <div class="buttons">
+        <button class="btn-edit">Edit Profile</button>
+
+        <button class="logout-btn" onclick="logout()">Logout</button>
+        <!-- Modal -->
+        <div
+          id="editModal"
+          style="
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            text-align: start;
+          "
+        >
+          <div
+            style="
+              background: #ffffff;
+              padding: 30px;
+              border-radius: 16px;
+              width: 90%;
+              max-width: 450px;
+              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+              position: relative;
+            "
+          >
+            <h2 style="text-align: center; margin-bottom: 20px; color: #023047">
+              Edit Profile
+            </h2>
+            <form id="editForm">
+              <label
+                style="
+                  font-weight: bold;
+                  margin-bottom: 5px;
+                  display: block text-align left;
+                "
+                >Username</label
+              >
+              <input
+                type="text"
+                id="editUsername"
+                required
+                style="
+                  width: 100%;
+                  padding: 10px;
+                  margin-bottom: 15px;
+                  border-radius: 8px;
+                  border: 1px solid #ccc;
+                "
+              />
+
+              <label
+                style="
+                  font-weight: bold;
+                  margin-bottom: 5px;
+                  display: block text-align left;
+                "
+                >Email</label
+              >
+              <input
+                type="email"
+                id="editEmail"
+                required
+                style="
+                  width: 100%;
+                  padding: 10px;
+                  margin-bottom: 15px;
+                  border-radius: 8px;
+                  border: 1px solid #ccc;
+                "
+              />
+
+              <label
+                style="
+                  font-weight: bold;
+                  margin-bottom: 5px;
+                  display: block text-align left;
+                "
+                >Password</label
+              >
+              <input
+                type="password"
+                id="editPassword"
+                placeholder="Leave blank to keep current password"
+                style="
+                  width: 100%;
+                  padding: 10px;
+                  margin-bottom: 25px;
+                  border-radius: 8px;
+                  border: 1px solid #ccc;
+                "
+              />
+
+              <label
+                style="
+                  font-weight: bold;
+                  margin-bottom: 5px;
+                  display: block text-align left;
+                "
+                >Confirm Password</label
+              >
+              <input
+                type="password"
+                id="confirmPassword"
+                placeholder="Repeat your password"
+                style="
+                  width: 100%;
+                  padding: 10px;
+                  margin-bottom: 25px;
+                  border-radius: 8px;
+                  border: 1px solid #ccc;
+                "
+              />
+
+              <div style="display: flex; justify-content: space-between">
+                <button
+                  type="submit"
+                  style="
+                    flex: 1;
+                    background-color: #219ebc;
+                    color: white;
+                    padding: 12px;
+                    border: none;
+                    border-radius: 8px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    transition: 0.3s;
+                  "
+                >
+                  Save Changes
+                </button>
+                <button
+                  type="button"
+                  onclick="closeModal()"
+                  style="
+                    flex: 1;
+                    margin-left: 10px;
+                    background-color: #ccc;
+                    color: #333;
+                    padding: 12px;
+                    border: none;
+                    border-radius: 8px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    transition: 0.3s;
+                  "
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        window.location.href = "/user/loginPage";
+      }
+
+      fetch("http://localhost:2555/user/me", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("Unauthorized");
+          return res.json();
+        })
+        .then((user) => {
+          document.getElementById("username").textContent = user.username;
+          document.getElementById("email").textContent = user.email;
+          document.getElementById("createdAt").textContent = new Date(
+            user.created_at || Date.now()
+          ).toLocaleDateString();
+        })
+        .catch((err) => {
+          console.error(err);
+          window.location.href = "/user/loginPage";
+        });
+
+      function logout() {
+        localStorage.removeItem("token");
+        window.location.href = "/user/loginPage";
+      }
+      const modal = document.getElementById("editModal");
+      const editForm = document.getElementById("editForm");
+
+      document.querySelector(".btn-edit").addEventListener("click", () => {
+        modal.style.display = "flex";
+        document.getElementById("editUsername").value =
+          document.getElementById("username").textContent;
+        document.getElementById("editEmail").value =
+          document.getElementById("email").textContent;
+      });
+
+      function closeModal() {
+        modal.style.display = "none";
+      }
+
+      editForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const password = document.getElementById("editPassword").value;
+        const confirmPassword =
+          document.getElementById("confirmPassword").value;
+
+        if (password && password !== confirmPassword) {
+          alert("Passwords do not match.");
+          return;
+        }
+
+        const updatedUser = {
+          username: document.getElementById("editUsername").value,
+          email: document.getElementById("editEmail").value,
+          password: password,
+        };
+
+        try {
+          const res = await fetch("http://localhost:2555/user/update", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(updatedUser),
+          });
+
+          if (!res.ok) throw new Error("Failed to update");
+
+          alert("Profile updated!");
+          closeModal();
+          location.reload(); // refresh to reflect updated values
+        } catch (err) {
+          console.error(err);
+          alert("Update failed.");
+        }
+      });
+    </script>
+  </body>
+</html>
