@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #8ecae6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .wrapper {
+        display: flex;
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        max-width: 850px;
+        width: 100%;
+      }
+
+      .welcome-box {
+        background-color: #219ebc;
+        color: white;
+        padding: 40px 30px;
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .welcome-box h1 {
+        font-size: 32px;
+        margin-bottom: 15px;
+      }
+
+      .welcome-box p {
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      .container {
+        padding: 40px 30px;
+        width: 50%;
+        background-color: #fff;
+      }
+
+      .container h2 {
+        margin-top: 27px;
+        text-align: center;
+        margin-bottom: 25px;
+        color: #333;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        margin-top: 15px;
+        font-weight: 600;
+        color: #555;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+      }
+      input:focus {
+        outline: none;
+        border-color: #219ebc;
+        box-shadow: 0 0 5px rgba(33, 158, 188, 0.5);
+      }
+
+      button {
+        width: 100%;
+        margin-top: 25px;
+        padding: 12px;
+        background-color: #667eea;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #5a67d8;
+      }
+
+      .footer-text {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #777;
+      }
+
+      .footer-text a {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .footer-text a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 768px) {
+        .wrapper {
+          flex-direction: column;
+        }
+        .welcome-box,
+        .container {
+          width: 100%;
+        }
+        .welcome-box {
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="welcome-box">
+        <h1>Welcome to Flavor Table Website!</h1>
+        <p>
+          Join our foodie family today <br />
+          Discover, save, and share your favorite recipes <br />
+          and make every meal unforgettable!
+        </p>
+      </div>
+
+      <div class="container">
+        <h2>Create an Account</h2>
+        <!-- نفس الهيكل اللي عندك فوق تماماً -->
+        <form id="registerForm">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Enter your username"
+            required
+          />
+
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="you@example.com"
+            required
+          />
+
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          />
+
+          <label for="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="Confirm your password"
+            required
+          />
+
+          <button type="submit">Register</button>
+        </form>
+
+        <div
+          id="message"
+          style="margin-top: 15px; text-align: center; font-weight: bold"
+        ></div>
+
+        <div class="footer-text">
+          Already have an account? <a href="/user/loginPage">Login here</a>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px">
+          <a
+            href="/"
+            style="
+              display: inline-block;
+              padding: 10px 20px;
+              background-color: #219ebc;
+              color: white;
+              text-decoration: none;
+              border-radius: 6px;
+              font-weight: bold;
+              transition: background-color 0.3s ease;
+            "
+          >
+            ⬅ Return to Home
+          </a>
+        </div>
+      </div>
+    </div>
+    <script>
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const username = document.getElementById("username").value;
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const confirmPassword =
+            document.getElementById("confirmPassword").value;
+          const messageBox = document.getElementById("message");
+
+          // Check if passwords match
+          if (password !== confirmPassword) {
+            messageBox.style.color = "red";
+            messageBox.textContent = "Passwords do not match.";
+            return;
+          }
+
+          try {
+            const res = await fetch("/user/register", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ username, email, password }),
+            });
+
+            const data = await res.json();
+            messageBox.style.color = res.ok ? "green" : "red";
+            messageBox.textContent =
+              data.message || (res.ok ? "Registered!" : "Registration failed.");
+
+            if (res.ok) {
+              document.getElementById("registerForm").reset();
+              messageBox.textContent =
+                "Registration successful! Redirecting...";
+
+              setTimeout(() => {
+                window.location.href = "/user/loginPage";
+              }, 1500); // وقت بسيط عشان يشوف الرسالة
+            }
+          } catch (error) {
+            messageBox.style.color = "red";
+            messageBox.textContent = "Something went wrong. Please try again.";
+          }
+        });
+    </script>
+  </body>
+</html>

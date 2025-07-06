@@ -1,4 +1,5 @@
 /* Use the elegant Google Font */
+/* for the whole project expect login , register profile  */
 html,
 body {
   height: 100%;
@@ -95,6 +96,30 @@ body {
   border-radius: 5px;
 }
 
+.regNavBtn {
+  background-color: #3692cf !important;
+  color: #ffffff !important;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 30px !important;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.3s ease !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.regNavBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  /* بدون تغيير لون الخلفية أو النص */
+}
+
+
+.nav-links li a .regNavBtn::after {
+  display: none !important;
+}
+
+
 .intro-text {
   text-align: center;
   max-width: 600px;
@@ -113,7 +138,6 @@ body {
 .index-container {
   display: flex;
   justify-content: center;
-  height: 100vh;           
 }
 
 
@@ -580,5 +604,85 @@ textarea {
 
 .hidden {
   display: none;
+}
+/* register */
+
+.register-container {
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  max-width: 400px;
+  width: 100%;
+}
+
+.register-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.register-label {
+  display: block;
+  margin-bottom: 8px;
+  margin-top: 15px;
+  font-weight: 600;
+  color: #555;
+}
+
+.register-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.register-button {
+  width: 100%;
+  margin-top: 25px;
+  padding: 12px;
+  background-color: #667eea;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+  background-color: #5a67d8;
+}
+
+.register-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.register-footer a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register-footer a:hover {
+  text-decoration: underline;
+}
+/* index */
+.register-reminder {
+  background-color: #e3f2fd;
+  border: 1px solid #90caf9;
+  padding: 20px;
+  margin: 40px auto 30px;
+  border-radius: 12px;
+  text-align: center;
+  width: 80%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  font-size: 18px;
+  color: #0d47a1;
 }
 
