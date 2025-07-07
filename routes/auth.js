@@ -75,7 +75,7 @@ router.get("/profilePage", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/profile.html"));
 });
 
-router.get("/me", async (req, res) => {
+router.get("/me",routeGuard, async (req, res) => {
   try {
     const userId = req.user.id;
     const result = await pool.query(
@@ -83,7 +83,9 @@ router.get("/me", async (req, res) => {
       [userId]
     );
 
+
     res.json(result.rows[0]);
+    console.log(req.user);
   } catch (err) {
     console.error(err);
     res.status(500).send("Server error");
