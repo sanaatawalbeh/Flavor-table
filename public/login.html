@@ -217,9 +217,9 @@
               localStorage.setItem("token", data.token);
               messageBox.style.color = "green";
               messageBox.textContent = "Login successful!";
-              setTimeout(() => {
-                window.location.href = "/user/profilePage";
-              }, 1500);
+            
+                window.location.href = "/profile.html";
+              
             } else {
               messageBox.style.color = "red";
               messageBox.textContent = data.message || "Login failed.";
