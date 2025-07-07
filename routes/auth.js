@@ -59,7 +59,7 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Incorrect password" });
 
     const token = jwt.sign(
-      { id: user.id, email: user.w=email },
+      { id: user.id, email: (user.email = email) },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
@@ -68,7 +68,6 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.log("Error logging in ", error);
     res.status(500).json({ message: "Internal Server Error" });
-
   }
 });
 
@@ -78,7 +77,7 @@ router.get("/profilePage", (req, res) => {
 
 router.get("/me", routeGuard, async (req, res) => {
   try {
-    const userId = req.user.id; // ✅ هيك من التوكن
+    const userId = req.user.id; 
     const result = await pool.query(
       "SELECT id, username, email FROM users WHERE id = $1",
       [userId]
