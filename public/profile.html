@@ -301,18 +301,18 @@
     </div>
 
     <script>
-      const token = localStorage.getItem("token");
+      const userId = localStorage.getItem("userId");
 
-      if (!token) {
+      if (!userId) {
         window.location.href = "/user/loginPage";
       }
 
-      fetch("http://localhost:2555/user/me", {
-        method: "GET",
+      fetch("/profile", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify({ id: userId }),
       })
         .then((res) => {
           if (!res.ok) throw new Error("Unauthorized");
@@ -328,9 +328,10 @@
         });
 
       function logout() {
-        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
         window.location.href = "/user/loginPage";
       }
+
       const modal = document.getElementById("editModal");
       const editForm = document.getElementById("editForm");
 
@@ -359,17 +360,17 @@
         }
 
         const updatedUser = {
+          id: userId, // نضيف الـ id هون كمان
           username: document.getElementById("editUsername").value,
           email: document.getElementById("editEmail").value,
           password: password,
         };
 
         try {
-          const res = await fetch("http://localhost:2555/user/update", {
+          const res = await fetch("/user/update", {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(updatedUser),
           });
@@ -378,7 +379,7 @@
 
           alert("Profile updated!");
           closeModal();
-          location.reload(); // refresh to reflect updated values
+          location.reload();
         } catch (err) {
           console.error(err);
           alert("Update failed.");
