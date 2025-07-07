@@ -213,13 +213,11 @@
 
             const data = await res.json();
 
-            if (res.ok) {
+            if (res.ok && data.token) {
               localStorage.setItem("token", data.token);
               messageBox.style.color = "green";
               messageBox.textContent = "Login successful!";
-            
-                window.location.href = "/profile.html";
-              
+              window.location.href = "/user/profilePage"; // ← حسب الراوت عندك
             } else {
               messageBox.style.color = "red";
               messageBox.textContent = data.message || "Login failed.";
