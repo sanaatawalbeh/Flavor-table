@@ -53,15 +53,13 @@ router.post("/login", async (req, res) => {
     if (!user) return res.status(404).json({ message: "Email is not found" });
 
     //campare the enter password with the hashed password
-    // if (!user) return res.status(404).send("email is not found");
 
     const isMatched = await bcrypt.compare(password, user.password);
-    // if (!isMatched) return res.status(401).send("Incorrect password");
     if (!isMatched)
       return res.status(401).json({ message: "Incorrect password" });
 
     const token = jwt.sign(
-      { id: user.id, username: user.username },
+      { id: user.id, email: user.w=email },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
@@ -71,7 +69,6 @@ router.post("/login", async (req, res) => {
     console.log("Error logging in ", error);
     res.status(500).json({ message: "Internal Server Error" });
 
-    // res.status(500).send("Error");
   }
 });
 
@@ -82,7 +79,6 @@ router.get("/profilePage", (req, res) => {
 router.get("/me", routeGuard, async (req, res) => {
   try {
     const userId = req.user.id; // ✅ هيك من التوكن
-
     const result = await pool.query(
       "SELECT id, username, email FROM users WHERE id = $1",
       [userId]
