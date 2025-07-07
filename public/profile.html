@@ -134,7 +134,6 @@
       <h2 id="username">Loading...</h2>
       <p class="bio">Sharing sweet recipes & good vibes</p>
       <p class="info">Email: <span id="email">Loading...</span></p>
-      <p class="info">Joined: <span id="createdAt">--</span></p>
 
       <div class="stats">
         <div class="stat"><strong>0</strong> Recipes</div>
@@ -146,7 +145,7 @@
         <button class="btn-edit">Edit Profile</button>
 
         <button class="logout-btn" onclick="logout()">Logout</button>
-        <!-- Modal -->
+
         <div
           id="editModal"
           style="
@@ -322,9 +321,6 @@
         .then((user) => {
           document.getElementById("username").textContent = user.username;
           document.getElementById("email").textContent = user.email;
-          document.getElementById("createdAt").textContent = new Date(
-            user.created_at || Date.now()
-          ).toLocaleDateString();
         })
         .catch((err) => {
           console.error(err);
