@@ -74,14 +74,24 @@ router.post("/login", async (req, res) => {
 router.get("/profilePage", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/profile.html"));
 });
+// تأكد إنك تستخدم body-parser أو express.json() في ملف السيرفر الرئيسي
 
-router.get("/me", routeGuard, async (req, res) => {
+router.post("/profile", async (req, res) => {
   try {
-    const username = req.user.username; // افترضنا إن الـ middleware يحط الـ username
+    const userId = req.body.id; // خذ الـ id من البودي
+
+    if (!userId) {
+      return res.status(400).send("User ID is required");
+    }
+
     const result = await pool.query(
-      "SELECT id, username, email FROM users WHERE username = $1",
-      [username]
+      "SELECT id, username, email FROM users WHERE id = $1",
+      [userId]
     );
+
+    if (result.rows.length === 0) {
+      return res.status(404).send("User not found");
+    }
 
     res.json(result.rows[0]);
   } catch (err) {
@@ -89,6 +99,7 @@ router.get("/me", routeGuard, async (req, res) => {
     res.status(500).send("Server error");
   }
 });
+
 
 router.get("/showAll", async (req, res) => {
   try {
@@ -100,7 +111,7 @@ router.get("/showAll", async (req, res) => {
   }
 });
 
-router.put("/update", routeGuard, async (req, res) => {
+router.put("/update", async (req, res) => {
   const { username, email, password } = req.body;
   const userId = req.user.id;
 

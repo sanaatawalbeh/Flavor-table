@@ -20,6 +20,7 @@ const auth = require("./routes/auth");
 app.use("/", homeRouter);
 app.use("/recipes", recipesRouter);
 app.use("/user", auth);
+app.use(express.json()); 
 
 // -----------------------------------------------------------------------------------------------
 const port = process.env.PORT || 3000;
