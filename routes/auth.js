@@ -77,10 +77,10 @@ router.get("/profilePage", (req, res) => {
 
 router.get("/me", routeGuard, async (req, res) => {
   try {
-    const userId = req.user.id;
+    const username = req.user.username; // افترضنا إن الـ middleware يحط الـ username
     const result = await pool.query(
-      "SELECT id, username, email FROM users WHERE id = $1",
-      [userId]
+      "SELECT id, username, email FROM users WHERE username = $1",
+      [username]
     );
 
     res.json(result.rows[0]);
@@ -124,6 +124,5 @@ router.put("/update", routeGuard, async (req, res) => {
     res.status(500).send("Update failed");
   }
 });
-
 
 module.exports = router;
