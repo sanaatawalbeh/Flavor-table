@@ -102,29 +102,29 @@ router.get("/showAll", async (req, res) => {
   }
 });
 
-// router.put("/update", routeGuard, async (req, res) => {
-//   const { username, email, password } = req.body;
-//   const userId = req.user.id;
+router.put("/update", routeGuard, async (req, res) => {
+  const { username, email, password } = req.body;
+  const userId = req.user.id;
 
-//   try {
-//     if (password) {
-//       const hashedPassword = await bcrypt.hash(password, 10);
-//       await pool.query(
-//         "UPDATE users SET username = $1, email = $2, password = $3 WHERE id = $4",
-//         [username, email, hashedPassword, userId]
-//       );
-//     } else {
-//       await pool.query(
-//         "UPDATE users SET username = $1, email = $2 WHERE id = $3",
-//         [username, email, userId]
-//       );
-//     }
+  try {
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      await pool.query(
+        "UPDATE users SET username = $1, email = $2, password = $3 WHERE id = $4",
+        [username, email, hashedPassword, userId]
+      );
+    } else {
+      await pool.query(
+        "UPDATE users SET username = $1, email = $2 WHERE id = $3",
+        [username, email, userId]
+      );
+    }
 
-//     res.send("User updated successfully");
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).send("Update failed");
-//   }
-// });
+    res.send("User updated successfully");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Update failed");
+  }
+});
 
 module.exports = router;

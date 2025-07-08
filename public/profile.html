@@ -311,7 +311,7 @@
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // تأكد أن token موجود وصحيح
+          Authorization: `Bearer ${token}`  // تأكد أن token موجود وصحيح
         },
       })
         .then((res) => {
@@ -326,10 +326,10 @@
           console.error(err);
         });
 
-      // function logout() {
-      //   localStorage.removeItem("token");
-      //   window.location.href = "/user/loginPage";
-      // }
+      function logout() {
+        localStorage.removeItem("token");
+        window.location.href = "/user/loginPage";
+      }
       const modal = document.getElementById("editModal");
       const editForm = document.getElementById("editForm");
 
@@ -364,7 +364,7 @@
         };
 
         try {
-          const res = await fetch("http://localhost:2555/user/update", {
+          const res = await fetch("https://flavor-table-vr4y.onrender.com/user/update", {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
