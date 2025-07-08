@@ -59,7 +59,7 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Incorrect password" });
 
     const token = jwt.sign(
-      { id: user.id, email: user.email },
+      { id: user.id  },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
@@ -75,7 +75,7 @@ router.get("/profilePage", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../public/profile.html"));
 });
 
-router.get("/me",routeGuard, async (req, res) => {
+router.get("/profile",routeGuard, async (req, res) => {
   try {
     const userId = req.user.id;
     const result = await pool.query(
@@ -102,29 +102,29 @@ router.get("/showAll", async (req, res) => {
   }
 });
 
-router.put("/update", routeGuard, async (req, res) => {
-  const { username, email, password } = req.body;
-  const userId = req.user.id;
+// router.put("/update", routeGuard, async (req, res) => {
+//   const { username, email, password } = req.body;
+//   const userId = req.user.id;
 
-  try {
-    if (password) {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      await pool.query(
-        "UPDATE users SET username = $1, email = $2, password = $3 WHERE id = $4",
-        [username, email, hashedPassword, userId]
-      );
-    } else {
-      await pool.query(
-        "UPDATE users SET username = $1, email = $2 WHERE id = $3",
-        [username, email, userId]
-      );
-    }
+//   try {
+//     if (password) {
+//       const hashedPassword = await bcrypt.hash(password, 10);
+//       await pool.query(
+//         "UPDATE users SET username = $1, email = $2, password = $3 WHERE id = $4",
+//         [username, email, hashedPassword, userId]
+//       );
+//     } else {
+//       await pool.query(
+//         "UPDATE users SET username = $1, email = $2 WHERE id = $3",
+//         [username, email, userId]
+//       );
+//     }
 
-    res.send("User updated successfully");
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Update failed");
-  }
-});
+//     res.send("User updated successfully");
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send("Update failed");
+//   }
+// });
 
 module.exports = router;
