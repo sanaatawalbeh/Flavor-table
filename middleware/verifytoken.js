@@ -1,23 +1,22 @@
-// middleware/verifyToken.js
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
-function verifyToken(req, res, next) {
+function routeGuard(req, res, next) {
+    
   const authHeader = req.headers["authorization"];
-  if (!authHeader)
-    return res.status(401).send("Access denied. No token provided.");
-
-  const token = authHeader.split(" ")[1];
-  if (!token) return res.status(401).send("Malformed token.");
+  const tokenFromHeader = authHeader && authHeader.split(" ")[1];
+  const tokenFromQuery = req.query.token;
+  const token = tokenFromHeader || tokenFromQuery;
+  if (!token) return res.status(401).send("No token provided , Access Donied");
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
+    const decode = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decode;
+
     next();
-  } catch (err) {
-    console.error("JWT Error:", err.message);
-    res.status(403).send("Invalid or expired token.");
+  } catch (error) {
+    return res.status(403).send("invalid or expired token ");
   }
 }
 
-module.exports = verifyToken;
+module.exports = routeGuard;
