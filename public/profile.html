@@ -307,11 +307,11 @@
         window.location.href = "/user/loginPage";
       }
 
-      fetch("http://localhost:2555/user/profile", {
+      fetch("https://flavor-table-vr4y.onrender.com//user/profile", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`  // تأكد أن token موجود وصحيح
+          Authorization: `Bearer ${token}`, // تأكد أن token موجود وصحيح
         },
       })
         .then((res) => {
@@ -363,25 +363,25 @@
           password: password,
         };
 
-      //   try {
-      //     const res = await fetch("http://localhost:2555/user/update", {
-      //       method: "PUT",
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //         Authorization: `Bearer ${token}`,
-      //       },
-      //       body: JSON.stringify(updatedUser),
-      //     });
+        try {
+          const res = await fetch("http://localhost:2555/user/update", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(updatedUser),
+          });
 
-      //     if (!res.ok) throw new Error("Failed to update");
+          if (!res.ok) throw new Error("Failed to update");
 
-      //     alert("Profile updated!");
-      //     closeModal();
-      //     location.reload(); // refresh to reflect updated values
-      //   } catch (err) {
-      //     console.error(err);
-      //     alert("Update failed.");
-      //   }
+          alert("Profile updated!");
+          closeModal();
+          location.reload(); // refresh to reflect updated values
+        } catch (err) {
+          console.error(err);
+          alert("Update failed.");
+        }
       });
     </script>
   </body>
